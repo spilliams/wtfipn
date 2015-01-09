@@ -18,3 +18,5 @@ questions this site could answer:
     kind of useless. random select among a list of relatives
 
 4. my local pizza night? "my friends and i have a semi-regular pizza night, can we sign up for an account and reserve portland.whenthefuckispizzanight.com?" Then they get access to a dashboard where they can specify when their pizza nights are. Pizza night attendees, pizzas, location, description, time. Link to google calendar?
+
+5. social portal. links for people to tweet #WTFIPN or #TGIPN
