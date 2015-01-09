@@ -12,7 +12,7 @@ questions this site could answer:
     - "because it's friday!"
     - "because it's the weekend!"
     - "because it's July 4th"
-    - pick a random entry from today on wikipedia
+    - pick a random entry from today on wikipedia (https://www.mediawiki.org/wiki/API:Main_page)
     - hardcode a few dates:
         - Feb 9 (US National Pizza Day)
         - July 10 (Brazil's Pizza Day)
