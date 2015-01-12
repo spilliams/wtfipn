@@ -1,32 +1,16 @@
-what is this site? is it just a static "TONIGHT"? I want it to be something more.
+#WTFIPN
 
-questions this site could answer:
+When the Fuck is Pizza Night?
 
-1. what kind of pizza should i make?
+##Developing
 
-    random selection among crust, sauce, toppings, cheeses
-    
-2. why is tonight a good night for pizza?
+This is a sinatra app that uses compass to manage its stylesheets. If you're going to edit styles, run `compass watch` to compile changes from public/scss into public/stylesheets.
 
-    The important thing to remember here is that there is *always* a reason for tonight to be pizza night.
-    - "because it's friday!"
-    - "because it's the weekend!"
-    - "because it's July 4th"
-    - pick a random entry from today on wikipedia (https://www.mediawiki.org/wiki/API:Main_page)
-    - hardcode a few dates:
-        - Feb 9 (US National Pizza Day)
-        - July 10 (Brazil's Pizza Day)
-        - Sept 5 (National Cheese Pizza Day)
-        - Sept 20 (National Pepperoni Pizza Day)
-        - Oct 11 (National Sausage Pizza Day)
-        - Nov 10-22 (12 Days of Pizzamas)
-        - Nov 12 (National Pizza with the Works Except Anchovies Day)
-3. who should come over to eat pizza?
+To run a dev server, my preferred solution is `shotgun`
 
-    kind of useless. random select among a list of relatives
+###Dependencies
 
-4. my local pizza night? "my friends and i have a semi-regular pizza night, can we sign up for an account and reserve portland.whenthefuckispizzanight.com?" Then they get access to a dashboard where they can specify when their pizza nights are. Pizza night attendees, pizzas, location, description, time. Link to google calendar?
+This project uses rubygems and Bundler to manage dependencies. run `bundle install` to make sure you have everything you need before starting your local server.
 
-5. social portal. links for people to tweet (driving #WTFIPN and #TGIPN)
-
-6. Sign up for notifications ("email me when it's pizza night")
+- wikipedia-client: used in finding the "because on this day" bit
+- json: for parsing content pulled down from Wikipedia
