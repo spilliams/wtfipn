@@ -4,9 +4,9 @@ When the Fuck is Pizza Night?
 
 ##Developing
 
-This is a sinatra app that uses compass to manage its stylesheets. If you're going to edit styles, run `compass watch` to compile changes from public/scss into public/stylesheets.
+This is a [Sinatra](http://www.sinatrarb.com/) app that uses [Compass](http://compass-style.org/) to manage its stylesheets. If you're going to edit styles, run `compass watch` to compile changes from public/scss into public/stylesheets. You can install compass with `gem install compass`.
 
-To run a dev server, my preferred solution is `shotgun`
+To run a dev server, my preferred solution is `shotgun`. You can install shotgun with `gem install shotgun`.
 
 ###Dependencies
 
