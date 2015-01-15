@@ -63,15 +63,19 @@ def fetch(pageName)
 end
 
 def fetchAll
-  days = [31, 28, 31, 30, 31, 30, 31, 31, 30, 31, 30, 31]
+  numDays = [31, 29, 31, 30, 31, 30, 31, 31, 30, 31, 30, 31]
   months = ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"]
 
+  days = []
   for i in 0...12
     dateString = months[i]+" "
-    for j in 1..days[i]
+    for j in 1..numDays[i]
       pageName = dateString+String(j);
       day = fetch(pageName)
+      days.push day
     end
   end
+  
+  days
   
 end
