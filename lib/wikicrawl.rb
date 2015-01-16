@@ -4,7 +4,7 @@ require 'json'
 DEBUG = false
 
 def removeTokens(text, startString, stopString, replace)
-  while text != nil && text.index(startString)
+  while text != nil and text.index(startString)
     startIndex = text.index(startString)
     stopIndex = text[startIndex,text.length-startIndex].index(stopString) + startIndex
     inner = text[startIndex+startString.length, stopIndex-startIndex-startString.length]
@@ -12,6 +12,34 @@ def removeTokens(text, startString, stopString, replace)
     replaceString = replace===false ? "" : (replace===true ? inner : replace)
     # puts "inner #{inner}, replace string: #{replaceString}"
     text[startIndex, stopIndex-startIndex+stopString.length] = replaceString
+  end
+  text
+end
+
+def removeShips(text)
+  while text != nil && text.index(/{{[sS]hip/)
+    startIndex = text.index(/{{[sS]hip/)
+    stopIndex = text[startIndex, text.length-startIndex].index(/}}/) + startIndex
+    inner = text[startIndex+7, stopIndex-startIndex-7].split("|")
+    # remove blanks
+    inner = inner.insert(0, "").uniq.drop(1)
+    if (inner[0].index("battleship") != nil)
+      inner = inner.drop(1)
+    end
+    if (inner[0].index("cruiser") != nil)
+      inner = inner.drop(1)
+    end
+    if (inner[0].index("aircraft carrier") != nil)
+      inner = inner.drop(1)
+    end
+    finalInner = ""
+    if (inner[0].upcase == inner[0])
+      finalInner = inner[0] + " "
+      inner = inner.drop(1)
+    end
+    finalInner += "<i>#{inner[0]}</i>"
+    puts "ship: #{finalInner}"
+    text[startIndex, stopIndex-startIndex+2] = finalInner
   end
   text
 end
@@ -42,7 +70,10 @@ def processEvent(e)
   end
   
   text = removeTokens(text, "<!--", "-->", false)
-  #TODO: do something about {foo|bar|qaz} tokens
+  text = removeShips(text)
+  
+  #TODO: do something about {{foo|bar|qaz}} tokens
+  # 177, Events, 69 has newlines in the {{}}
   #TODO: <sub> and <sup>
   #TODO: decapitalize the first word if it is an article (or if it wasn't originally in a token?!)
   #TODO: change tenses of verbs...
