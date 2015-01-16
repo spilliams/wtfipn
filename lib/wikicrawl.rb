@@ -16,31 +16,52 @@ def removeTokens(text, startString, stopString, replace)
   text
 end
 
+def shipFromSplitToken(inner)
+  # remove blanks
+  inner = inner.insert(0, "").uniq.drop(1)
+  
+  # weeding
+  if (inner[0].index("battleship") != nil)
+    inner = inner.drop(1)
+  end
+  if (inner[0].index("cruiser") != nil)
+    inner = inner.drop(1)
+  end
+  if (inner[0].index("aircraft carrier") != nil)
+    inner = inner.drop(1)
+  end
+  
+  finalInner = ""
+  if (inner[0].upcase == inner[0])
+    finalInner = inner[0]
+    inner = inner.drop(1)
+  end
+  
+  "#{finalInner} <i>#{inner[0]}</i>"
+end
 def removeShips(text)
-  while text != nil && text.index(/{{[sS]hip/)
+  while text != nil and text.index(/{{[sS]hip/)
     startIndex = text.index(/{{[sS]hip/)
     stopIndex = text[startIndex, text.length-startIndex].index(/}}/) + startIndex
     inner = text[startIndex+7, stopIndex-startIndex-7].split("|")
-    # remove blanks
-    inner = inner.insert(0, "").uniq.drop(1)
-    if (inner[0].index("battleship") != nil)
-      inner = inner.drop(1)
-    end
-    if (inner[0].index("cruiser") != nil)
-      inner = inner.drop(1)
-    end
-    if (inner[0].index("aircraft carrier") != nil)
-      inner = inner.drop(1)
-    end
-    finalInner = ""
-    if (inner[0].upcase == inner[0])
-      finalInner = inner[0] + " "
-      inner = inner.drop(1)
-    end
-    finalInner += "<i>#{inner[0]}</i>"
-    puts "ship: #{finalInner}"
+    finalInner = shipFromSplitToken(inner)
     text[startIndex, stopIndex-startIndex+2] = finalInner
   end
+  
+  abbrevs = ["HMS", "RMS", "USS", "HMAS", "SS", "MS", "AMS", "SMU", "MV"]
+  for abbrevIndex in 0...abbrevs.length
+    abbrev = abbrevs[abbrevIndex]
+    startString = "{{#{abbrev}"
+    stopString = "}}"
+    while text != nil && text.index(startString)
+      startIndex = text.index(startString)
+      stopIndex = text[startIndex, text.length-startIndex].index(stopString) + startIndex
+      inner = text[startIndex+2, stopIndex-startIndex-2].split("|")
+      finalInner = shipFromSplitToken(inner)
+      text[startIndex, stopIndex-startIndex+2] = finalInner
+    end
+  end
+  
   text
 end
 
@@ -71,9 +92,15 @@ def processEvent(e)
   
   text = removeTokens(text, "<!--", "-->", false)
   text = removeShips(text)
+  text = removeTokens(text, "{{Cite ", "}}", false)
+  text = removeTokens(text, "{{cite ", "}}", false)
+  text = removeTokens(text, "{{Citation", "}}", false)
+  text = removeTokens(text, "{{citation", "}}", false)
+  text = removeTokens(text, "{{$", "}}", "$")
   
   #TODO: do something about {{foo|bar|qaz}} tokens
-  # 177, Events, 69 has newlines in the {{}}
+    # 177, Events, 69 has newlines in the {{}}
+    # {{convert
   #TODO: <sub> and <sup>
   #TODO: decapitalize the first word if it is an article (or if it wasn't originally in a token?!)
   #TODO: change tenses of verbs...
