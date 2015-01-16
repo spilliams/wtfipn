@@ -82,6 +82,18 @@ def processItalics(text)
   text
 end
 
+def processSpaceShuttles(text)
+  replaces = {"{{OV|105}}" => "Endeavour", "{{OV|104}}" => "Atlantis", "{{OV|099}}" => "Challenger", "{{OV|102}}" => "Columbia", "{{OV|103}}" => "Discovery", "{{OV|101}}" => "Enterprise"}
+  for replaceIndex in 0...replaces.keys.length
+    replaceToken = replaces.keys[replaceIndex]
+    replaceInner = replaces[replaceToken]
+    while text != nil and text.index(replaceToken)
+      text[text.index(replaceToken), replaceToken.length] = "Space Shuttle <i>#{replaceInner}</i>"
+    end
+  end
+  text
+end
+
 # takes in raw content string for event
 # returns presentable html
 def processEvent(e)
@@ -117,6 +129,7 @@ def processEvent(e)
   test = removeTokens(text, "{{okina", "}}", "ʻ")
   
   test = processItalics(text)
+  text = processSpaceShuttles(text)
   
   # TODO:
   # do something about {{foo|bar|baz}} tokens
