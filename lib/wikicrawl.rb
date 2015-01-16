@@ -124,6 +124,8 @@ def processEvent(e)
   text = removeTokens(text, "{{cite ", "}}", false)
   text = removeTokens(text, "{{Citation", "}}", false)
   text = removeTokens(text, "{{citation", "}}", false)
+  text = removeTokens(text, "{{Dismbiguation ", "}}", false)
+  text = removeTokens(text, "{{dismbiguation ", "}}", false)
   text = removeTokens(text, "{{$", "}}", "$")
   
   test = removeTokens(text, "{{okina", "}}", "ʻ")
