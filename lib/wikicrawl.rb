@@ -40,6 +40,7 @@ def shipFromSplitToken(inner)
   "#{finalInner} <i>#{inner[0]}</i>"
 end
 def removeShips(text)
+  # those that start with Ship or ship
   while text != nil and text.index(/{{[sS]hip/)
     startIndex = text.index(/{{[sS]hip/)
     stopIndex = text[startIndex, text.length-startIndex].index(/}}/) + startIndex
@@ -48,12 +49,13 @@ def removeShips(text)
     text[startIndex, stopIndex-startIndex+2] = finalInner
   end
   
+  # those that just start with the abbreviation
   abbrevs = ["HMS", "RMS", "USS", "HMAS", "SS", "MS", "AMS", "SMU", "MV", "GS", "SMS", "ss", "USCGC", "HMNZS"]
   for abbrevIndex in 0...abbrevs.length
     abbrev = abbrevs[abbrevIndex]
     startString = "{{#{abbrev}"
     stopString = "}}"
-    while text != nil && text.index(startString)
+    while text != nil and text.index(startString)
       startIndex = text.index(startString)
       stopIndex = text[startIndex, text.length-startIndex].index(stopString) + startIndex
       inner = text[startIndex+2, stopIndex-startIndex-2].split("|")
@@ -61,6 +63,17 @@ def removeShips(text)
       finalInner = shipFromSplitToken(inner)
       text[startIndex, stopIndex-startIndex+2] = finalInner
     end
+  end
+  
+  # ship classes
+  while text != nil and text.index("{{sclass-")
+    startIndex = text.index("{{sclass-")
+    stopIndex = text[startIndex, text.length - startIndex].index("}}") + startIndex
+    inner = text[startIndex+2, stopIndex-startIndex-2].split("|")
+    # 0th is "sclass-", 1st is name, 2nd is size
+    name = inner[1]
+    size = inner[2]
+    text[startIndex, stopIndex-startIndex+2] = "<i>#{name}</i>-class #{size}"
   end
   
   text
