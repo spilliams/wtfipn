@@ -6,12 +6,12 @@ DEBUG = false
 def removeTokens(text, startString, stopString, replace)
   while text != nil and text.index(startString)
     startIndex = text.index(startString)
-    stopIndex = text[startIndex,text.length-startIndex].index(stopString) + startIndex
-    inner = text[startIndex+startString.length, stopIndex-startIndex-startString.length]
+    stopIndex = text[startIndex + startString.length, text.length - startIndex - startString.length].index(stopString) + startIndex + startString.length
+    inner = text[startIndex + startString.length, stopIndex - startIndex - startString.length]
     # replace can be "true" for "use the token's inner string", or it can be a string to replace the whole token with
     replaceString = replace===false ? "" : (replace===true ? inner : replace)
     # puts "inner #{inner}, replace string: #{replaceString}"
-    text[startIndex, stopIndex-startIndex+stopString.length] = replaceString
+    text[startIndex, stopIndex - startIndex + stopString.length] = replaceString
   end
   text
 end
@@ -48,7 +48,7 @@ def removeShips(text)
     text[startIndex, stopIndex-startIndex+2] = finalInner
   end
   
-  abbrevs = ["HMS", "RMS", "USS", "HMAS", "SS", "MS", "AMS", "SMU", "MV"]
+  abbrevs = ["HMS", "RMS", "USS", "HMAS", "SS", "MS", "AMS", "SMU", "MV", "GS", "SMS", "ss", "USCGC", "HMNZS"]
   for abbrevIndex in 0...abbrevs.length
     abbrev = abbrevs[abbrevIndex]
     startString = "{{#{abbrev}"
@@ -57,9 +57,26 @@ def removeShips(text)
       startIndex = text.index(startString)
       stopIndex = text[startIndex, text.length-startIndex].index(stopString) + startIndex
       inner = text[startIndex+2, stopIndex-startIndex-2].split("|")
+      inner[0] = inner[0].upcase
       finalInner = shipFromSplitToken(inner)
       text[startIndex, stopIndex-startIndex+2] = finalInner
     end
+  end
+  
+  text
+end
+
+def processItalics(text)
+  while text != nil and text.index("''")
+    startIndex = text.index("''")
+    stopIndex = text[startIndex+2, text.length - startIndex - 2].index("''")
+    if (stopIndex == nil)
+      stopIndex = text.length
+    else
+      stopIndex = stopIndex + startIndex + 2
+    end
+    inner = text[startIndex+2, stopIndex - startIndex - 2]
+    text[startIndex, stopIndex-startIndex+2] = "<i>#{inner}</i>"
   end
   
   text
@@ -77,8 +94,7 @@ def processEvent(e)
 
   text = e.split("&ndash;").drop(1).join.strip
   
-  text = removeTokens(text, "<ref", ">", false)
-  text = removeTokens(text, "</ref", ">", false)
+  text = removeTokens(text, "<ref", "</ref>", false)
   text = removeTokens(text, "{{'", "}}", "'")
   
   # remove [[foo|bar]] tokens
@@ -98,12 +114,18 @@ def processEvent(e)
   text = removeTokens(text, "{{citation", "}}", false)
   text = removeTokens(text, "{{$", "}}", "$")
   
-  #TODO: do something about {{foo|bar|qaz}} tokens
+  test = removeTokens(text, "{{okina", "}}", "ʻ")
+  
+  test = processItalics(text)
+  
+  # TODO:
+  # do something about {{foo|bar|baz}} tokens
     # 177, Events, 69 has newlines in the {{}}
-    # {{convert
-  #TODO: <sub> and <sup>
-  #TODO: decapitalize the first word if it is an article (or if it wasn't originally in a token?!)
-  #TODO: change tenses of verbs...
+    # [] citations
+  # <sub> and <sup>
+  # decapitalize the first word if it is an article (or if it wasn't originally in a token?!)
+  # change tenses of verbs...
+  # search for all special characters: `~!@#$%^&*()-=_+[]\{}|;':",./<>?
   
   text = text.strip
   
