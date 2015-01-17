@@ -1,8 +1,18 @@
 require 'sinatra'
 
 class App < Sinatra::Base
+  
+  configure do
+    set :lastFetchedDay, nil
+    set :lastFetchedString, nil
+  end
 
   get '/' do
+    @js = "index.js"
+    erb :index
+  end
+  
+  get '/reason' do
     require './lib/wikicrawl.rb'
     d = Time.now.strftime("%B %-d")
     
@@ -25,17 +35,29 @@ class App < Sinatra::Base
                  "November 20" => "the Eleventh Day of Pizzamas",
                  "November 21" => "the Twelfth Day of Pizzamas"}
     if (hardcoded.keys.index(d) != nil)
-      @reason = "today is #{hardcoded[d]}"
+      reason = "today is #{hardcoded[d]}"
     else
-      day = fetch(d)
+      
+      # only fetch a day if we haven't stored one already
+      if (settings.lastFetchedString != d)
+        day = fetch(d)
+        settings.lastFetchedDay = day
+        settings.lastFetchedString = d
+      else
+        puts "retrieving day from cached"
+        day = settings.lastFetchedDay
+      end
+      
       # pick a random event
       eventIndex = rand(day["Events"].count)
       event = processEvent(day["Events"][eventIndex])
-      @reason = "on this day in #{event["year"]}, #{event["text"]}"
+      while (event["text"] == "")
+        event = processEvent(day["Events"][eventIndex])
+      end
+      reason = "because on this day in #{event["year"]}, #{event["text"]}"
     end
     
-    
-    erb :index
+    reason
   end
 
 end

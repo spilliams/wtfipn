@@ -4,3 +4,15 @@
  * <link href="/stylesheets/screen.css" media="screen, projection" rel="stylesheet" type="text/css" /> */
 
 @import "compass/reset";
+
+body {
+    font-family: "Arial";
+    font-weight: bold;
+    font-size: 18pt;
+}
+h1 {
+    margin: 0 auto;
+    text-align: center;
+    margin-top: 3em;
+    font-size: 60pt;
+}

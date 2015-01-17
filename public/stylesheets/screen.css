@@ -66,3 +66,18 @@ a img {
 article, aside, details, figcaption, figure, footer, header, hgroup, main, menu, nav, section, summary {
   display: block;
 }
+
+/* line 8, ../scss/screen.scss */
+body {
+  font-family: "Arial";
+  font-weight: bold;
+  font-size: 18pt;
+}
+
+/* line 13, ../scss/screen.scss */
+h1 {
+  margin: 0 auto;
+  text-align: center;
+  margin-top: 3em;
+  font-size: 60pt;
+}
