@@ -196,17 +196,6 @@ def processEvent(e)
   text = processSpaceShuttles(text)
   text = processColons(text)
   
-  # TODO:
-  # do something about {{foo|bar|baz}} tokens
-    # 177, Events, 69 has newlines in the {{}}
-    # [] citations
-  # <sub> and <sup>
-  # decapitalize the first word if it is an article (or if it wasn't originally in a token?!)
-  # change tenses of verbs...
-  # search for all special characters: `~!@#$%^&*()-=_+[]\{}|;':",./<>?
-  # remove instances of negative emotion?
-  # for sentence fragments, rearrange the reason. current: "because on this day in 1986, First meeting of the Internet Engineering Task Force". fixed: "because today in 1986 was the First meeting of the Internet Engineering Task Force"
-  
   text = text.strip
   
   return {"year" => year, "text" => text}

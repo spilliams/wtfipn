@@ -54,7 +54,17 @@ class App < Sinatra::Base
       while (event["text"] == "")
         event = processEvent(day["Events"][eventIndex])
       end
-      reason = "because on this day in #{event["year"]}, #{event["text"]}"
+      
+      excuses = [
+        "that reason isn't fucking good enough",
+        "I need a different goddamn reason",
+        "so what?",
+        "I don't give a shit about that",
+        "not pizza-worthy"
+      ]
+      excuse = excuses[rand(excuses.length)]
+      
+      reason = "because on this day in #{event["year"]}, #{event["text"]}<br /><a href='#'>#{excuse}</a>"
     end
     
     reason
