@@ -64,7 +64,7 @@ class App < Sinatra::Base
       ]
       excuse = excuses[rand(excuses.length)]
       
-      reason = "because on this day in #{event["year"]}, #{event["text"]}<br /><a href='#'>#{excuse}</a>"
+      reason = "<p>because on this day in #{event["year"]}, #{event["text"]}</p><p id='excuse'><a href='/'>#{excuse}</a></p>"
     end
     
     reason

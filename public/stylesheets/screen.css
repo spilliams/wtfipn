@@ -86,3 +86,16 @@ h1 {
 a {
   color: black;
 }
+
+/* line 22, ../scss/screen.scss */
+#reason {
+  text-align: center;
+  width: 62%;
+  margin: 0 auto;
+  margin-top: 1em;
+}
+
+/* line 28, ../scss/screen.scss */
+#excuse {
+  margin-top: 1em;
+}
