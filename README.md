@@ -15,11 +15,25 @@ This project uses rubygems and Bundler to manage dependencies. run `bundle insta
 - wikipedia-client: used in finding the "because on this day" bit
 - json: for parsing content pulled down from Wikipedia
 
+###Staging & Production
+
+This project has a staging server at staging.whenthefuckispizzanight.com (an alias of wtfipn-staging.herokuapp.com), and a production server at whenthefuckispizzanight.com (an alias of wtfipn-production.herokuapp.com).
+
+The way our git repository is configured, to deploy all one needs to do is `git push staging master` or `git push production master`.
+
+###Other Deployments
+
+Our DNS over at Dreamhost also sets up a few custom subdomains for friends:
+
+- oakland.whenthefuckispizzanight.com -> Tumblr (Jasmine Friedrich)
+
 ##TODO
 
 - loading icon before ajax
 - postgresql db
-- data model
+- data model: users, events, attendees
+    All interaction with secure parts of the app will be done through unique tokens emailed to the user.
+    Story 1: User is linked to a pizza night app (ie portland.wtfipn.com)
 - dashboard
 - better wiki parsing:
     - process more curly-brace tokens
