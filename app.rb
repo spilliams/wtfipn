@@ -8,9 +8,9 @@ class App < Sinatra::Base
   end
 
   get '/' do
-    # @js = "index.js"
-    # erb :index
-    erb :hardcode
+    @js = "index.js"
+    erb :index
+    # erb :hardcode
   end
   
   get '/reason' do
