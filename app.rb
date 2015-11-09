@@ -36,7 +36,7 @@ class App < Sinatra::Base
                  "November 19" => "the Eleventh Day of Pizzamas",
                  "November 20" => "the Twelfth Day of Pizzamas"}
     if (hardcoded.keys.index(d) != nil)
-      reason = "today is #{hardcoded[d]}"
+      reason = "<p>because today is #{hardcoded[d]}</p>"
     else
       
       # only fetch a day if we haven't stored one already
